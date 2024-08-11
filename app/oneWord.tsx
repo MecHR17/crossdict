@@ -29,12 +29,11 @@ export default function oneWord() {
         if(defs.length != 0){
             setdefinition(defs.join("\n"));
             setfinaldefs(defs);
-            console.log("A")
         }
         else{
           setfinaldefs(["No definitions found."]);
         }
-      });
+      }).catch((error)=>{setfinaldefs(["No definitions found."]);});
     }, []);
 
   return (
