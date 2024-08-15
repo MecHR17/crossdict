@@ -1,72 +1,109 @@
-import { Text, View } from "react-native";
-import { Link } from "expo-router";
-import { FlatList, ScrollView, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
+import React, { useState } from 'react'
+import { firebase_auth } from '@/constants/firebase';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
-import { getDatabase, ref, onValue, get, child,set,remove } from "firebase/database";
-import {app} from "@/constants/firebase"
-import { useState } from "react";
-import React from "react";
+const login = () => {
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    const [loading,setloading] = useState(false);
+    const auth = firebase_auth;
+      
+    const handleLogin = async () => {
+        // Handle login logic here
+        setloading(true);
+        try{
+            const res = await signInWithEmailAndPassword(auth,email,password);
+            console.log(res);
+        }
+        catch(error){
+            console.log(error);
+            alert(error);
+        }
+        finally{
+            setloading(false);
+        }
+    };
+    
+    const handleRegister = async () => {
+        setloading(true);
+        try{
+            const res = await createUserWithEmailAndPassword(auth,email,password);
+            console.log(res);
+        }
+        catch(error){
+            console.log(error);
+        }
+        finally{
+            setloading(false);
+        }
+    };
+    
+    return (
+        <View style={styles.container}>
+        <Text style={styles.title}>Login</Text>
+        <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+        />
+        <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+        />
+        {loading ? <ActivityIndicator size="large" color="#0000ff"/> : 
+        <>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.registerButton]} onPress={handleRegister}>
+                <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+        </>
+        }
 
-import WordDisplay from "@/components/WordDisplay";
-import WordInput from "@/components/WordInput";
-
-export default function Index() {
-  const db = getDatabase(app);
-  const dbRef = ref(db);
-  const [words,setwords] = useState<string[]>([]);
-  const [input,setinput] = useState<string>("");
-
-  const Remove = (event:any) => {
-    var word = input.toLowerCase();
-    console.log(word);
-    remove(ref(db,'words/'+word)).catch((error)=>{console.log(error)});
-    setinput("");
-  }
-
-  const Upload = (event:any) => {
-    console.log(input);
-    var word = input.toLowerCase();
-    set(ref(db, 'words/' + word), word).catch((error)=>{
-      console.log(error);
-    });
-    setinput("");
-  }
-
-  get(child(dbRef, 'words/')).then((snapshot) => {
-    if (snapshot.exists()) {
-      var x = snapshot.val();
-      var tmp:string[] = [];
-      Object.keys(x).forEach(key => {
-        tmp.push(x[key]);
-      });
-      tmp.sort((a:string,b:string)=>{return a<b?-1:1});
-      setwords(tmp);
-    } else {
-      console.log("No data available");
-    }
-  }).catch((error) => {
-    console.error(error);
-  });
-  
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <WordInput value={input} onChangeText={setinput} placeholder="Add word..."
-      onAdd={Upload} onRemove={Remove}/>
-      <FlatList data={words} renderItem={({item})=><WordDisplay word={item}/>} 
-      keyExtractor={(item)=>item} contentContainerStyle={styles.contentContainer}/>
-    </View>
-  );
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    flexGrow: 1,
-    alignItems: 'center',
-  },
-});
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 16,
+    },
+    title: {
+      fontSize: 24,
+      marginBottom: 24,
+    },
+    input: {
+      width: '100%',
+      padding: 12,
+      marginBottom: 12,
+      borderWidth: 1,
+      borderColor: '#ccc',
+      borderRadius: 8,
+    },
+    button: {
+      width: '100%',
+      padding: 12,
+      backgroundColor: '#007BFF',
+      borderRadius: 8,
+      alignItems: 'center',
+      marginBottom: 12,
+    },
+    buttonText: {
+      color: '#fff',
+      fontSize: 16,
+    },
+    registerButton: {
+      backgroundColor: '#28A745',
+    },
+  });
+
+export default login
