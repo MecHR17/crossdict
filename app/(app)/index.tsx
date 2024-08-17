@@ -1,15 +1,14 @@
-import { Button, Text, View } from "react-native";
+import { ActivityIndicator, Button, Text, View } from "react-native";
 import { FlatList, StyleSheet } from "react-native";
 
-import {signOut} from "firebase/auth"
 import { getDatabase, ref, onValue, get, child,set,remove } from "firebase/database";
 import {app, firebase_auth} from "@/constants/firebase"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import React from "react";
 
 import WordDisplay from "@/components/WordDisplay";
 import WordInput from "@/components/WordInput";
-import { useRouter } from "expo-router";
+import { useAuth } from "@/context/authContext";
 
 function Hash(str:any) {
 
@@ -50,10 +49,7 @@ const getWords = ({dbRef,setwords,user}:any)=>{
 
 export default function Index() {
 
-  const user = firebase_auth.currentUser;
-  const router = useRouter();
-
-  const auth = firebase_auth;
+  const {user,logout} = useAuth();
 
   const db = getDatabase(app);
   const dbRef = ref(db);
@@ -94,11 +90,11 @@ export default function Index() {
     addWord(word);
   }
 
-  const logout = () => {
-    signOut(auth);
-  }
-
   getWords({dbRef,setwords,user});
+
+  if(!user){
+    return(<ActivityIndicator size="large" color="#0000ff"/>);
+  }
 
   return (
     <View style={styles.container}>
@@ -116,7 +112,7 @@ export default function Index() {
         contentContainerStyle={styles.contentContainer} 
       />
       <View style={styles.logoutButtonContainer}>
-        <Button title="Logout" onPress={logout} />
+        <Button title="Logout" onPress={()=>{logout()}} />
       </View>
     </View>
   );

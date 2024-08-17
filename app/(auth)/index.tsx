@@ -1,42 +1,25 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { firebase_auth } from '@/constants/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { useAuth } from '@/context/authContext';
 
 const login = () => {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [loading,setloading] = useState(false);
-    const auth = firebase_auth;
-      
+    
+    const {login,register} = useAuth();
+
     const handleLogin = async () => {
         // Handle login logic here
         setloading(true);
-        try{
-            const res = await signInWithEmailAndPassword(auth,email,password);
-            console.log(res);
-        }
-        catch(error){
-            console.log(error);
-            alert(error);
-        }
-        finally{
-            setloading(false);
-        }
+        login(email,password).then(()=>{setloading(false)});
     };
     
     const handleRegister = async () => {
         setloading(true);
-        try{
-            const res = await createUserWithEmailAndPassword(auth,email,password);
-            console.log(res);
-        }
-        catch(error){
-            console.log(error);
-        }
-        finally{
-            setloading(false);
-        }
+        register(email,password).then(()=>{setloading(false)});;
     };
     
     return (

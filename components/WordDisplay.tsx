@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 const WordDisplay = ({ word }:any) => {
     return (
-    <Link href={{pathname:"/auth/oneWord",params:{word:word}}} style={styles.link}>
+    <Link href={{pathname:"/(app)/oneWord",params:{word:word}}} style={styles.link}>
         <View style={styles.container}>
         <Text style={styles.word}>{word}</Text>
         </View>

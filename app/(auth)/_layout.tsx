@@ -4,10 +4,7 @@ import { useRouter, Stack } from 'expo-router'
 
 import { firebase_auth } from '@/constants/firebase'
 
-const _layout = () => {
-  const user = firebase_auth.currentUser;
-  const router = useRouter();
-  
+export default function _layout(){  
   const [loading, setLoading] = useState(true);
 
   firebase_auth.authStateReady().then(()=>{
@@ -15,11 +12,6 @@ const _layout = () => {
   });
 
   if(loading){
-    return <ActivityIndicator size="large" color="#0000ff"/>;
-  }
-
-  if(!user){
-    router.replace("/");
     return <ActivityIndicator size="large" color="#0000ff"/>;
   }
   else{
