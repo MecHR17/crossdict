@@ -29,7 +29,7 @@ const getWords = ({dbRef,setwords,user}:any)=>{
   React.useEffect(()=>{
     if(!user)
       return;
-    get(child(dbRef, Hash(user?.email) + '/words/')).then((snapshot) => {
+    get(child(dbRef, user.uid + '/words/')).then((snapshot) => {
       if (snapshot.exists()) {
         var x = snapshot.val();
         var tmp:string[] = [];
@@ -50,7 +50,7 @@ const getWords = ({dbRef,setwords,user}:any)=>{
 export default function Index() {
 
   const {user,logout} = useAuth();
-
+  
   const db = getDatabase(app);
   const dbRef = ref(db);
   const [words,setwords] = useState<string[]>([]);
@@ -75,7 +75,7 @@ export default function Index() {
   const Remove = (event:any) => {
     var word = input.toLowerCase();
     console.log(word);
-    remove(ref(db, Hash(user?.email) + '/words/'+word)).catch((error)=>{console.log(error)});
+    remove(ref(db, user.uid + '/words/'+word)).catch((error)=>{console.log(error)});
     setinput("");
     removeWord(word);
   }
@@ -83,7 +83,7 @@ export default function Index() {
   const Upload = (event:any) => {
     console.log(input);
     var word = input.toLowerCase();
-    set(ref(db, Hash(user?.email) + '/words/' + word), word).catch((error)=>{
+    set(ref(db, user.uid + '/words/' + word), word).catch((error)=>{
       console.log(error);
     });
     setinput("");
