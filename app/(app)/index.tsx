@@ -10,21 +10,6 @@ import WordDisplay from "@/components/WordDisplay";
 import WordInput from "@/components/WordInput";
 import { useAuth } from "@/context/authContext";
 
-function Hash(str:any) {
-
-  let hash = 0;
-
-  if (str.length == 0) return hash;
-
-  for (var i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash;
-  }
-
-  return hash.toString();
-}
-
 const getWords = ({dbRef,setwords,user}:any)=>{
   React.useEffect(()=>{
     if(!user)
@@ -34,7 +19,7 @@ const getWords = ({dbRef,setwords,user}:any)=>{
         var x = snapshot.val();
         var tmp:string[] = [];
         Object.keys(x).forEach(key => {
-          tmp.push(x[key]);
+          tmp.push(key);
         });
         tmp.sort((a:string,b:string)=>{return a<b?-1:1});
         setwords(tmp);
@@ -83,7 +68,7 @@ export default function Index() {
   const Upload = (event:any) => {
     console.log(input);
     var word = input.toLowerCase();
-    set(ref(db, user.uid + '/words/' + word), word).catch((error)=>{
+    set(ref(db, user.uid + '/words/' + word), "").catch((error)=>{
       console.log(error);
     });
     setinput("");
