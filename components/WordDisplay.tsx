@@ -2,7 +2,7 @@ import { Link } from 'expo-router';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const WordDisplay = ({ word }:any) => {
+const WordDisplay = ({ word }:{word:string}) => {
     return (
     <Link href={{pathname:"/(app)/oneWord",params:{word:word}}} style={styles.link}>
         <View style={styles.container}>

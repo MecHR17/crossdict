@@ -4,16 +4,17 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useState } from "react";
 import WordDefinitions from "@/components/WordDefinitions"
 import React from "react";
+import Single_Definition from "@/classes/Single_Definition";
 
 const apilink:string = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
 export default function oneWord() {
   const params = useLocalSearchParams();
-  const word = params.word;
+  const word = params.word.toString();
   const [definition,setdefinition] = useState("");
 
-  const defs: string[] = [];
-  const [finaldefs, setfinaldefs] = useState<string[]>([]);
+  const defs: Single_Definition[] = [];
+  const [finaldefs, setfinaldefs] = useState<Single_Definition[]|null>([]);
 
   React.useEffect(
     () => {
@@ -21,8 +22,10 @@ export default function oneWord() {
       .then(response => response.json())
       .then(json => json[0].meanings)
       .then(meanings => {
-        meanings.forEach((element: { definitions: { definition: any; }[]; }) => {
-            defs.push(element.definitions[0].definition);
+        meanings.forEach((element: { partOfSpeech:any,definitions: { definition: any; }[]; }) => {
+            element.definitions.forEach((one_definition:any) => {
+              defs.push(new Single_Definition(element.partOfSpeech,one_definition.definition));
+            });
         });
       })
       .then(()=>{
@@ -31,9 +34,9 @@ export default function oneWord() {
             setfinaldefs(defs);
         }
         else{
-          setfinaldefs(["No definitions found."]);
+          setfinaldefs(null);
         }
-      }).catch((error)=>{setfinaldefs(["No definitions found."]);});
+      }).catch((error)=>{setfinaldefs(null);});
     }, []);
 
   return (
