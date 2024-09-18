@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import { firebase_auth } from '@/constants/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from '@/context/authContext';
+import LoadingComponent from '@/components/LoadingComponent';
 
 const login = () => {
     const [email,setEmail] = useState('');
@@ -38,7 +39,7 @@ const login = () => {
             onChangeText={setPassword}
             secureTextEntry
         />
-        {loading ? <ActivityIndicator size="large" color="#0000ff"/> : 
+        {loading ? <LoadingComponent></LoadingComponent> : 
         <>
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Login</Text>

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useRouter, Stack } from 'expo-router'
 
 import { firebase_auth } from '@/constants/firebase'
+import LoadingComponent from '@/components/LoadingComponent';
 
 export default function _layout(){  
   const [loading, setLoading] = useState(true);
@@ -12,7 +13,7 @@ export default function _layout(){
   });
 
   if(loading){
-    return <ActivityIndicator size="large" color="#0000ff"/>;
+    return <LoadingComponent></LoadingComponent>;
   }
   else{
     return (

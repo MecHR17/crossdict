@@ -9,6 +9,7 @@ import React from "react";
 import WordDisplay from "@/components/WordDisplay";
 import WordInput from "@/components/WordInput";
 import { useAuth } from "@/context/authContext";
+import LoadingComponent from "@/components/LoadingComponent";
 
 const getWords = ({dbRef,setwords,user}:any)=>{
   React.useEffect(()=>{
@@ -78,7 +79,7 @@ export default function Index() {
   getWords({dbRef,setwords,user});
 
   if(!user){
-    return(<ActivityIndicator size="large" color="#0000ff"/>);
+    return(<LoadingComponent></LoadingComponent>);
   }
 
   return (
@@ -120,6 +121,11 @@ const styles = StyleSheet.create({
     right: 16, // Keeps the logout button small and positioned at the bottom right
     width: 80, // Small width for the button
   },
+  loadingContainer: {
+    alignItems:"center",
+    justifyContent:"center",
+    flex:1,
+  }
 });
 
 
