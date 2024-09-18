@@ -104,18 +104,22 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    flexGrow: 1,
-    alignItems: 'center',
-  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#f8f8f8',
+    alignItems:"center",
+  },
+  contentContainer: {
+    paddingHorizontal: 20,
+    marginTop: 16, // Ensures the FlatList is below the search bar
   },
   logoutButtonContainer: {
     position: 'absolute',
-    bottom: 20,
-    right: 20,
+    bottom: 16,
+    right: 16, // Keeps the logout button small and positioned at the bottom right
+    width: 80, // Small width for the button
   },
 });
+
+

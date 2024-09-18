@@ -22,6 +22,7 @@ const WordDisplay = ({ word }:{word:string}) => {
     },
     container: {
       padding: 15,
+      paddingHorizontal:30,
       backgroundColor: '#E0E0E0', // Light grey background
       borderRadius: 8,
       margin: 10,
