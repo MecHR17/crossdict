@@ -6,6 +6,13 @@ import WordDefinitions from "@/components/WordDefinitions"
 import React from "react";
 import Single_Definition from "@/classes/Single_Definition";
 
+/*
+TODO:
+- Introduce classes for handling Single_Definition[]
+extraction from JSON api response. (For when one of
+the api's are down, or for making changing api's easier)
+*/
+
 const apilink:string = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
 export default function oneWord() {
