@@ -1,0 +1,1 @@
+export const FreeDictionaryAPI_link:string = "https://api.dictionaryapi.dev/api/v2/entries/en/";
