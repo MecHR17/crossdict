@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "CrossDict",
+    "slug": "crossdict",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mechr.crossdict"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.mechr.crossdict"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ac401664-59e8-4d41-8fe0-2578a9df7195"
+      }
+    },
+    "owner": "mechr",
+    "updates": {
+      "url": "https://u.expo.dev/ac401664-59e8-4d41-8fe0-2578a9df7195"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
+  }
+}
